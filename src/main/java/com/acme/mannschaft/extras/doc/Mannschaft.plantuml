@@ -1,0 +1,144 @@
+' Copyright (C) 2019 - present Juergen Zimmermann, Hochschule Karlsruhe
+'
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with this program.  If not, see <https://www.gnu.org/licenses/>.
+@startuml Mannschaft
+
+skinparam classAttributeIconSize 0
+' skinparam monochrome true
+
+package java {
+    package util {
+        class UUID
+        interface List<T>
+        class URL
+        class Currency
+    }
+
+    package math {
+        class BigDecimal
+    }
+
+    package time {
+        class LocalDate
+        class LocalDateTime
+    }
+
+    LocalDate .right[hidden].> LocalDateTime
+    LocalDateTime .[hidden].> Currency
+    Currency .[hidden].> BigDecimal
+}
+
+package jakarta.persistence {
+    interface "@Entity" as Entity
+    interface "@Table" as Table
+
+    Entity -[hidden]down-> Table
+    LocalDateTime .up[hidden].> Table
+}
+
+package com.acme.mannschaft {
+    package entity #DDDDDD {
+        class Umsatz << entity >> {
+            @Id
+            @GeneratedValue
+            id : UUID
+            betrag: BigDecimal
+            waehrung: Currency
+        }
+        Umsatz ..> UUID
+
+        class Adresse << entity >> {
+            @Id
+            @GeneratedValue
+            id : UUID
+            plz: String
+            ort: String
+        }
+        Adresse ..> UUID
+
+        enum GeschlechtType {
+            MAENNLICH
+            WEIBLICH
+            DIVERS
+        }
+
+        enum FamilienstandType {
+            LEDIG
+            VERHEIRATET
+            GESCHIEDEN
+            VERWITWET
+        }
+
+        enum InteresseType {
+            SPORT
+            LESEN
+            REISEN
+        }
+
+        class Mannschaft << entity >>  << @Entity >>  << @Table >> {
+            @Id
+            @GeneratedValue
+            id : UUID
+            @Version
+            version : int
+            nachname : String
+            email : String
+            kategorie: int
+            hasNewsletter : boolean
+            geburtsdatum: LocalDate
+            homepage: URL
+            @Enumerated
+            geschlecht: GeschlechtType
+            @Enumerated
+            familienstand: FamilienstandType
+            @Transient
+            @UniqueElements
+            interessen: List<InteresseType>
+            @Column
+            interessenStr: String
+            username: String
+            @CreationTimestamp
+            erzeugt: LocalDateTime
+            @UpdateTimestamp
+            aktualisiert: LocalDateTime
+        }
+
+        Mannschaft *--> "0..*" Umsatz : @OneToOne(cascade = [...]) \n@JoinColumn(...) \numsaetze
+        Mannschaft *--> "1" Adresse : @OneToOne(cascade = [...]) \nadresse
+
+        Mannschaft .up.> GeschlechtType
+        Mannschaft .up.> FamilienstandType
+        Mannschaft .up.> InteresseType
+
+        Mannschaft .right.> UUID
+        Mannschaft .right.> URL
+        Mannschaft .right.> LocalDate
+        Mannschaft .right.> LocalDateTime
+
+        Mannschaft .right.> List
+        Mannschaft .right.> Entity
+        Mannschaft .right.> Table
+
+        Umsatz ..> Currency
+        Umsatz ..> BigDecimal
+
+        GeschlechtType .[hidden].> List
+    }
+}
+
+hide empty members
+
+footer (c) Jürgen Zimmermann
+
+@enduml

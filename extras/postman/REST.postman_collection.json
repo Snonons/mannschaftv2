@@ -1,0 +1,380 @@
+{
+  "info": {
+    "name": "REST",
+    "description": "REST-Schnittstelle",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Suche mit ID",
+      "item": [
+        {
+          "name": "Vorhandene ID 00000000-0000-0000-0000-000000000001",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {
+              "accept": true
+            }
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{rest_url}}/:id",
+              "host": [
+                "{{rest_url}}"
+              ],
+              "path": [
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "00000000-0000-0000-0000-000000000001",
+                  "description": "Mannschaft ID"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Nicht-vorhandene ID 99999999-9999-9999-9999-999999999999",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{rest_url}}/:id",
+              "host": [
+                "{{rest_url}}"
+              ],
+              "path": [
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "99999999-9999-9999-9999-999999999999",
+                  "description": "Mannschaft ID"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Über die REST-Schnittstelle nach Mannschaften anhand der ID suchen.",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Suche mit Suchkriterien",
+      "item": [
+        {
+          "name": "Alle",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {
+              "accept": true
+            }
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/hal+json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{rest_url}}",
+              "host": [
+                "{{rest_url}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Vorhandener Nachname",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {
+              "accept": true
+            }
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/hal+json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{rest_url}}?name=Alpha",
+              "host": [
+                "{{rest_url}}"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Alpha"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Neuanlegen",
+      "item": [
+        {
+          "name": "Neuer Mannschaft",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Neuername\",\n    \"gruendungsjahr\": 1900,\n    \"spielerList\": [\n        { \"vorname\": \"Marcel\", \"nachname\": \"Gediga\" },\n        { \"vorname\": \"Hans\", \"nachname\": \"Peter\" }\n    ],\n    \"trainer\": { \"vorname\": \"Hans\", \"nachname\": \"Sarpei\" }\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{rest_url}}",
+              "host": [
+                "{{rest_url}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Über die REST-Schnittstelle neuen Mannschaft anlegen",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ändern durch PUT",
+      "item": [
+        {
+          "name": "Mannschaft ändern",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "If-Match",
+                "value": "\"0\"",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Neuername\",\n    \"gruendungsjahr\": 1900,\n    \"spielerList\": [{\n     \"vorname\": \"Marcel\",\n \"nachname\": \"Gediga\"\n },\n        { \"vorname\": \"Hans\", \"nachname\": \"Peter\" }\n    ],\n    \"trainer\": { \"vorname\": \"Hans\", \"nachname\": \"Sarpei\" }\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{rest_url}}/:id",
+              "host": [
+                "{{rest_url}}"
+              ],
+              "path": [
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "00000000-0000-0000-0000-000000000001"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Über die REST-Schnittstelle vorhandenen Mannschaft ändern",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "rest_url",
+      "value": "{{base_url}}/rest",
+      "type": "string"
+    },
+    {
+      "key": "auth_url",
+      "value": "{{base_url}}/auth",
+      "type": "string"
+    }
+  ]
+}
