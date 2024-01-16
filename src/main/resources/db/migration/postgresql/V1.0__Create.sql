@@ -43,7 +43,6 @@ CREATE INDEX IF NOT EXISTS trainer_mannschaft_id_idx ON trainer(id) TABLESPACE m
 CREATE TABLE IF NOT EXISTS mannschaft (
     id            uuid PRIMARY KEY USING INDEX TABLESPACE mannschaftspace,
                   -- https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-INT
-    version       integer NOT NULL DEFAULT 0,
     name          varchar(40) NOT NULL,
                   -- impliziter Index als B-Baum durch UNIQUE
                   -- https://www.postgresql.org/docs/current/datatype-datetime.html
